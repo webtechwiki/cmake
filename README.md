@@ -1,5 +1,5 @@
 # cmake的使用
-> 10.12: 完成 P7 编译过程
+> 10.14: 完成 P8 g++重要编译参数 8:10 时间处，完成代码在编译过程中的优化。
 >
 
 ## 一、安装编译环境
@@ -87,3 +87,69 @@ g++ -O2 test.cpp
 ```
 
 （3）代码优化示例
+创建一个效率低下的代码块`inefficency.cpp`，添加以下内容
+```cpp
+#include <iostream>
+using namespace std;
+
+int main(int argc, char const *argv[])
+{
+	unsigned long int counter;
+	unsigned long int result;
+	unsigned long int temp;
+	unsigned long int five;
+
+	for (counter = 0; counter < 2009 * 2009 * 100 / 4 + 2010 ; counter += (10-6)/4)
+	{
+		temp = counter/1979;
+		for (int i = 0; i < 20; i++)
+		{
+			// 每次循环都会进行一次无用的 复杂的运算
+			five = 200 * 200 / 8000;
+			result = counter;
+		}
+	}
+
+	cout << "result = " << result << endl;
+
+	return 0;
+}
+```
+
+先使用直接编译的方式生成`a_without_o`可执行文件，如下命令
+```shell
+g++ inefficency.cpp -o a_without_o
+```
+
+接下来我们再室友优化后的编译方式，如下命令
+```shell
+g++ inefficency.cpp -O2 -o a_with_o2
+```
+
+后执行两种方式编译生成的可执行文件，如下结果
+```shell
+pan@pan-PC:~/Work/src/cmake/src$ ./a_without_o 
+result = 100904034
+pan@pan-PC:~/Work/src/cmake/src$ ./a_with_o2 
+result = 100904034
+pan@pan-PC:~/Work/src/cmake/src$
+```
+可以看到计算的结果是一样的，但是没有编译优化的 `a_without_o` 执行时间明显大于 `a_with_o2`。我们可以使用再次使用 `time` 命令计算执行程序所需的时间，可以看到明显的时间区别，如下结果
+
+```shell
+pan@pan-PC:~/Work/src/cmake/src$ time ./a_without_o 
+result = 100904034
+
+real    0m4.212s
+user    0m4.212s
+sys     0m0.000s
+pan@pan-PC:~/Work/src/cmake/src$ time ./a_with_o2 
+result = 100904034
+
+real    0m0.001s
+user    0m0.001s
+sys     0m0.000s
+pan@pan-PC:~/Work/src/cmake/src$
+```
+
+> 总结：加上 -O 优化参数后，我们一般使用 -O2 ，编译器会帮我们优化低效率的代码。从而提高最终程序的执行效率。
