@@ -1,5 +1,5 @@
 # cmake的使用
-> 10.14: 完成 P8 g++重要编译参数 8:10 时间处，完成代码在编译过程中的优化。
+> 10.15: 完成 P8 g++重要编译参数 10:18 时间处，完成代码在编译过程中的优化。
 >
 
 ## 一、安装编译环境
@@ -86,7 +86,7 @@ g++ -g test.cpp -o test
 g++ -O2 test.cpp
 ```
 
-（3）代码优化示例
+**示例**
 创建一个效率低下的代码块`inefficency.cpp`，添加以下内容
 ```cpp
 #include <iostream>
@@ -153,3 +153,53 @@ pan@pan-PC:~/Work/src/cmake/src$
 ```
 
 > 总结：加上 -O 优化参数后，我们一般使用 -O2 ，编译器会帮我们优化低效率的代码。从而提高最终程序的执行效率。
+
+（3）`-l` 或者 `-L` 指定库文件 | 指定库文件路径
+-l 参数（小写）就是用来指定程序要链接的库，-l 参数紧接着就是库名，在`/lib`和`/usr/lib`和`/usr/local/lib`里的库直接调用 -l 参数就能链接
+
+```shell
+# 链接 glog库
+g++ -lglog test.cpp
+```
+
+如果库文件没有放在上面的三个目录里，需要试用-L参数（大写）指定库文件所在目录，-L 参数跟着的是库文件所在的目录名
+
+```shell
+# 链接 mytest库。libmytest.so 在 ~/lib目录下
+g++ -L~/lib -lmytest test.cpp
+```
+
+（4）-I 指定头文件搜索目录
+`/usr/include` 目录一般不用指定，gcc知道去那里找，但是如果头文件不在`/usr/include`里我们就要用 `-I` 参数指定了，比如头文件放在 `/myinclude`目录里，那编译命令行就要加上 `-I/myinclude`参数了，如果不加你会得到一个`xxx.h: No such file or directory`的错误。-I参数可以试用相对路径，比如头文件在当前目录，可以用 -I 来指定。上面我们提到的-cflags参数就是用来生成-I参数的。
+
+```shell
+g++ -I/myinclde test.cpp
+```
+
+（5）-Wall 打印警告信息
+```shell
+打印出gcc提供的警告信息
+g++ -Wall test.cpp
+```
+
+（6）-w 关闭警告信息
+```shell
+# 关闭所有警告信息
+g++ -w test.cpp
+```
+
+（7）-std=c++11 设置编译标准
+```shell
+# 使用 c++11 标准编译 test.cpp
+g++ -std=c++11 test.cpp
+```
+
+（8）-o（小写） 指定输出文件名
+```shell
+# 指定即将产生的文件名未test
+g++ test.cpp -o test
+```
+
+（9）-D 定义宏
+在使用 gcc/g++编译的时候定义宏，常用场景：
+-DDEBUG 定义DEBUG宏，可能文件中有DEBUG宏部分的相关信息，用DEBUG来选择开启或者关闭DEBUG
