@@ -203,3 +203,19 @@ g++ test.cpp -o test
 （9）-D 定义宏
 在使用 gcc/g++编译的时候定义宏，常用场景：
 -DDEBUG 定义DEBUG宏，可能文件中有DEBUG宏部分的相关信息，用DEBUG来选择开启或者关闭DEBUG
+
+
+添加源码文件`test2.cpp`，示例代码
+```cpp
+#include <stdio.h>
+
+int main()
+{
+	#ifdef DEBUG
+	  printf("DEBUG LOG\n");
+	#endif
+	  printf("in\n");
+	return 0;
+}
+```
+在编译的时候，使用 `g++ -DDEBUG test2.cpp` 后执行可执行文件，可以看到 "DEBUG LOG" 被输出
