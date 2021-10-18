@@ -1,5 +1,5 @@
 # cmake的使用
-> 10.15: 完成 P8 g++重要编译参数
+> 10.15: 完成 P9 5:19
 >
 
 ## 一、安装编译环境
@@ -219,3 +219,23 @@ int main()
 }
 ```
 在编译的时候，使用 `g++ -DDEBUG test2.cpp` 后执行可执行文件，可以看到 "DEBUG LOG" 被输出
+
+
+## 三、g++实战命令行编译
+
+在一个工作目录中创建添加代码，文件结构如下
+```shell
+pan@pan-PC:~/Work/md/cmake/src/gcc_demo_swap$ tree .
+.
+├── include
+│   └── swap.h
+├── main.cpp
+└── src
+    └── swap.cpp
+```
+
+直接编译
+```shell
+g++ main.cpp src/swap.cpp
+```
+
