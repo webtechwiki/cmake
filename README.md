@@ -1,6 +1,6 @@
-# cmake的使用
-> 10.15: 完成 P9 5:19
->
+# cmake 的使用
+
+> 10.15: 完成 P9 8:28
 
 ## 一、安装编译环境
 
@@ -11,6 +11,7 @@ sudo apt install -y build-essential gcc g++ gdb cmake
 ```
 
 安装验证，如果成功显示版本号，则代表安装成功
+
 ```shell
 gcc --version
 g++ --version
@@ -20,26 +21,28 @@ cmake --version
 
 ## 二、基础
 
-### 1. GCC编译器
+### 1. GCC 编译器
 
-- GCC编译器支持编译 Go、Object-C、Object-C ++、Fortran、Ada、BRIG（HSAIL）等程序；
-- Linux开发 C/C++一定要熟悉GCC；
-- VSCode是通过调用GCC编译器来实现C/C++的编译工作的。
+- GCC 编译器支持编译 Go、Object-C、Object-C ++、Fortran、Ada、BRIG（HSAIL）等程序；
+- Linux 开发 C/C++一定要熟悉 GCC；
+- VSCode 是通过调用 GCC 编译器来实现 C/C++的编译工作的。
 
 实际使用中
-- 使用GCC编译C代码；
-- 使用G++编译C++代码。
 
+- 使用 GCC 编译 C 代码；
+- 使用 G++编译 C++代码。
 
 **(1)编译过程**
 
 第一步：预处理 Pre-processing，生成.i 文件
+
 ```shell
 # -E 选项指示编译器仅对输入文件进行预编译
 g++ -E test.cpp -o testr.i
 ```
 
 第二步：编译-Compiling，生成.s 文件
+
 ```shell
 # -S 编译选项告诉 g++ 在为 c++ 代码产生了汇编语言文件后停止编译
 # g++ 产生的汇编语言文件的缺省扩展名是 .s
@@ -47,22 +50,24 @@ g++ -S test.i -o test.s
 ```
 
 第三步：汇编-Assembing，生成.o 文件
+
 ```shell
 # -c 选项告诉 g++ 仅把源代码编译为机器语言的目标代码
 # 缺省时 g++ 建立的目标代码文件有一个 .o 的扩展名
 g++ -c test.s -o test.o
 ```
 
-第四步：链接-Lingking，生成bin二进制文件
+第四步：链接-Lingking，生成 bin 二进制文件
+
 ```shell
 # -o 编译选项来为将产生的可执行文件指定文件名
 g++ test.o -o test
 ```
 
-
 ### 2. G++重要编译参数
 
 （1）编译带调试信息的可执行文件
+
 ```shell
 # -g 选项告诉GCC产生能被 GNU 调试器DGB试用的调试信息，以调试程序
 
@@ -73,12 +78,12 @@ g++ -g test.cpp -o test
 （2）优化源代码
 所谓优化，例如省略代码中从来未试用过的变量、直接常亮表达式用结果替代等，这些操作会缩减目标文件所含的代码，提高最终生成的执行文件的运行效率。
 
--O 告诉 g++ 对源代码进行基本优化。这些优化在大多数情况下都使程序执行得更快。-O2 告诉 g++ 产生尽可能小和尽可能快的代码。如 -O2，-O3，-On（n通常为3）
+-O 告诉 g++ 对源代码进行基本优化。这些优化在大多数情况下都使程序执行得更快。-O2 告诉 g++ 产生尽可能小和尽可能快的代码。如 -O2，-O3，-On（n 通常为 3）
 
 -O 同时减少代码的长度和执行时间，其效果等价于 -O1
 -O0 表示不做优化
 -O1 表示默认优化
--O2 除了完成-O1的优化之外，还进行一些额外的调整工作，如指令调整等
+-O2 除了完成-O1 的优化之外，还进行一些额外的调整工作，如指令调整等
 -O3 则包括循环展开和其他一些与处理性相关的优化工作，选项将使编译的速度比 -O 慢，但通常产生的代码执行速度会更快。
 
 ```shell
@@ -88,6 +93,7 @@ g++ -O2 test.cpp
 
 **示例**
 创建一个效率低下的代码块`inefficency.cpp`，添加以下内容
+
 ```cpp
 #include <iostream>
 using namespace std;
@@ -117,33 +123,37 @@ int main(int argc, char const *argv[])
 ```
 
 先使用直接编译的方式生成`a_without_o`可执行文件，如下命令
+
 ```shell
 g++ inefficency.cpp -o a_without_o
 ```
 
 接下来我们再室友优化后的编译方式，如下命令
+
 ```shell
 g++ inefficency.cpp -O2 -o a_with_o2
 ```
 
 后执行两种方式编译生成的可执行文件，如下结果
+
 ```shell
-pan@pan-PC:~/Work/src/cmake/src$ ./a_without_o 
+pan@pan-PC:~/Work/src/cmake/src$ ./a_without_o
 result = 100904034
-pan@pan-PC:~/Work/src/cmake/src$ ./a_with_o2 
+pan@pan-PC:~/Work/src/cmake/src$ ./a_with_o2
 result = 100904034
 pan@pan-PC:~/Work/src/cmake/src$
 ```
+
 可以看到计算的结果是一样的，但是没有编译优化的 `a_without_o` 执行时间明显大于 `a_with_o2`。我们可以使用再次使用 `time` 命令计算执行程序所需的时间，可以看到明显的时间区别，如下结果
 
 ```shell
-pan@pan-PC:~/Work/src/cmake/src$ time ./a_without_o 
+pan@pan-PC:~/Work/src/cmake/src$ time ./a_without_o
 result = 100904034
 
 real    0m4.212s
 user    0m4.212s
 sys     0m0.000s
-pan@pan-PC:~/Work/src/cmake/src$ time ./a_with_o2 
+pan@pan-PC:~/Work/src/cmake/src$ time ./a_with_o2
 result = 100904034
 
 real    0m0.001s
@@ -162,7 +172,7 @@ pan@pan-PC:~/Work/src/cmake/src$
 g++ -lglog test.cpp
 ```
 
-如果库文件没有放在上面的三个目录里，需要试用-L参数（大写）指定库文件所在目录，-L 参数跟着的是库文件所在的目录名
+如果库文件没有放在上面的三个目录里，需要试用-L 参数（大写）指定库文件所在目录，-L 参数跟着的是库文件所在的目录名
 
 ```shell
 # 链接 mytest库。libmytest.so 在 ~/lib目录下
@@ -170,31 +180,35 @@ g++ -L~/lib -lmytest test.cpp
 ```
 
 （4）-I 指定头文件搜索目录
-`/usr/include` 目录一般不用指定，gcc知道去那里找，但是如果头文件不在`/usr/include`里我们就要用 `-I` 参数指定了，比如头文件放在 `/myinclude`目录里，那编译命令行就要加上 `-I/myinclude`参数了，如果不加你会得到一个`xxx.h: No such file or directory`的错误。-I参数可以试用相对路径，比如头文件在当前目录，可以用 -I 来指定。上面我们提到的-cflags参数就是用来生成-I参数的。
+`/usr/include` 目录一般不用指定，gcc 知道去那里找，但是如果头文件不在`/usr/include`里我们就要用 `-I` 参数指定了，比如头文件放在 `/myinclude`目录里，那编译命令行就要加上 `-I/myinclude`参数了，如果不加你会得到一个`xxx.h: No such file or directory`的错误。-I 参数可以试用相对路径，比如头文件在当前目录，可以用 -I 来指定。上面我们提到的-cflags 参数就是用来生成-I 参数的。
 
 ```shell
 g++ -I/myinclde test.cpp
 ```
 
 （5）-Wall 打印警告信息
+
 ```shell
 打印出gcc提供的警告信息
 g++ -Wall test.cpp
 ```
 
 （6）-w 关闭警告信息
+
 ```shell
 # 关闭所有警告信息
 g++ -w test.cpp
 ```
 
 （7）-std=c++11 设置编译标准
+
 ```shell
 # 使用 c++11 标准编译 test.cpp
 g++ -std=c++11 test.cpp
 ```
 
 （8）-o（小写） 指定输出文件名
+
 ```shell
 # 指定即将产生的文件名未test
 g++ test.cpp -o test
@@ -202,10 +216,10 @@ g++ test.cpp -o test
 
 （9）-D 定义宏
 在使用 gcc/g++编译的时候定义宏，常用场景：
--DDEBUG 定义DEBUG宏，可能文件中有DEBUG宏部分的相关信息，用DEBUG来选择开启或者关闭DEBUG
-
+-DDEBUG 定义 DEBUG 宏，可能文件中有 DEBUG 宏部分的相关信息，用 DEBUG 来选择开启或者关闭 DEBUG
 
 添加源码文件`test2.cpp`，示例代码
+
 ```cpp
 #include <stdio.h>
 
@@ -218,12 +232,13 @@ int main()
 	return 0;
 }
 ```
-在编译的时候，使用 `g++ -DDEBUG test2.cpp` 后执行可执行文件，可以看到 "DEBUG LOG" 被输出
 
+在编译的时候，使用 `g++ -DDEBUG test2.cpp` 后执行可执行文件，可以看到 "DEBUG LOG" 被输出
 
 ## 三、g++实战命令行编译
 
 在一个工作目录中创建添加代码，文件结构如下
+
 ```shell
 pan@pan-PC:~/Work/md/cmake/src/gcc_demo_swap$ tree .
 .
@@ -234,8 +249,135 @@ pan@pan-PC:~/Work/md/cmake/src/gcc_demo_swap$ tree .
     └── swap.cpp
 ```
 
+代码内容如下：
+
+1. swap.h
+
+```cpp
+#include <iostream>
+using namespace std;
+```
+
+2. swap.cpp
+
+```cpp
+#include "swap.h"
+
+void swap(int &a, int &b)
+{
+	int temp;
+	temp = a;
+	a = b;
+	b = temp;
+}
+```
+
+3. main.cpp
+
+```cpp
+#include <iostream>
+#include "swap.h"
+using namespace std;
+
+int main(int argc, char const *argv[])
+{
+    int val1 = 10;
+    int val2 = 20;
+
+    cout << " Before swap:" << endl;
+    cout << " val1:" << val1 << endl;
+    cout << " val2:" << val2 << endl;
+
+    swap(val1, val2);
+
+    cout << " After swap:" << endl;
+    cout << " val1:" << val1 << endl;
+    cout << " val2:" << val2 << endl;
+
+    return 0;
+}
+```
+
+**-I 参数**
 直接编译
+
 ```shell
 g++ main.cpp src/swap.cpp
 ```
 
+此时会看到如下错误
+
+```shell
+pan@pan-PC:~/Work/md/cmake/src/gcc_demo_swap$ g++ main.cpp src/swap.cpp
+main.cpp:2:10: fatal error: swap.h: 没有那个文件或目录
+ #include "swap.h"
+          ^~~~~~~~
+compilation terminated.
+src/swap.cpp:1:10: fatal error: swap.h: 没有那个文件或目录
+ #include "swap.h"
+          ^~~~~~~~
+compilation terminated.
+```
+
+这是因为 g++ 找不到`include`目录下的`swap.h` 文件，所以我们需要将`-I`参数将`include`包含进来，如下命令
+
+```shell
+g++ main.cpp src/swap.cpp -Iinclude
+```
+
+这时候代码就可以顺便通过编译了。
+
+**-Wall、-std 参数**
+`-Wall` 代表程序编译过程中输出警告信息，`-std`代表使用的 c++标准，如下命令
+
+```
+# 使用c++11标准进行编译，并且使用-Wall参数
+g++ main.cpp src/swap.cpp -Iinclude -Wall -std=c++11 -o b.out
+```
+
+此时我们看到，还是能正常编译，也没有输出警告，我们也可以正常执行`b.out`。因为我们的代码是符合`c++11`标准的，为了演示一个警告，我们在`main.cpp`中加一行代码。如下
+
+```cpp
+#include <iostream>
+#include "swap.h"
+using namespace std;
+
+int main(int argc, char const *argv[])
+{
+    int val1 = 10;
+    int val2 = 20;
+	// 定义一个变量，但是不使用
+	double d = 0.0;
+
+    cout << " Before swap:" << endl;
+    cout << " val1:" << val1 << endl;
+    cout << " val2:" << val2 << endl;
+
+    swap(val1, val2);
+
+    cout << " After swap:" << endl;
+    cout << " val1:" << val1 << endl;
+    cout << " val2:" << val2 << endl;
+
+    return 0;
+}
+```
+
+把输出文件改为`c.aot`，再次执行编译，如下命令
+
+```
+g++ main.cpp src/swap.cpp -Iinclude -Wall -std=c++11 -o b.out
+```
+
+此时出现如下警告
+
+```shell
+pan@pan-PC:~/Work/md/cmake/src/gcc_demo_swap$ g++ main.cpp src/swap.cpp -Iinclude -Wall -std=c++11
+main.cpp: In function ‘int main(int, const char**)’:
+main.cpp:9:12: warning: unused variable ‘d’ [-Wunused-variable]
+     double d = 0.0;
+            ^
+pan@pan-PC:~/Work/md/cmake/src/gcc_demo_swap$
+```
+
+因为定义一个变量不使用，是不符合`c++11`的标准的，但不是错误，`c.out`也能正常执行。
