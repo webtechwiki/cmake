@@ -1,6 +1,6 @@
 # cmake 的使用
 
-> 10.15: 完成 P9 8:28
+> 10.15: 完成 P9 c++编译实战
 
 ## 一、安装编译环境
 
@@ -251,14 +251,14 @@ pan@pan-PC:~/Work/md/cmake/src/gcc_demo_swap$ tree .
 
 代码内容如下：
 
-1. swap.h
+swap.h
 
 ```cpp
 #include <iostream>
 using namespace std;
 ```
 
-2. swap.cpp
+swap.cpp
 
 ```cpp
 #include "swap.h"
@@ -272,7 +272,7 @@ void swap(int &a, int &b)
 }
 ```
 
-3. main.cpp
+main.cpp
 
 ```cpp
 #include <iostream>
@@ -298,7 +298,8 @@ int main(int argc, char const *argv[])
 }
 ```
 
-**-I 参数**
+### 1.引入目录进行编译
+
 直接编译
 
 ```shell
@@ -327,7 +328,8 @@ g++ main.cpp src/swap.cpp -Iinclude
 
 这时候代码就可以顺便通过编译了。
 
-**-Wall、-std 参数**
+### 2. 使用-Wall、-std 参数进行编译
+
 `-Wall` 代表程序编译过程中输出警告信息，`-std`代表使用的 c++标准，如下命令
 
 ```
@@ -381,3 +383,58 @@ pan@pan-PC:~/Work/md/cmake/src/gcc_demo_swap$
 ```
 
 因为定义一个变量不使用，是不符合`c++11`的标准的，但不是错误，`c.out`也能正常执行。
+
+### 3. 生成库文件
+
+我们先删除调在 2 中会进行警告的代码
+
+**链接静态库生成可执行文件**
+
+```shell
+# 先进入src目录
+cd  src
+# 汇编生成swap.o 文件
+g++ swap.cpp -c -I../include
+# 生成静态库libSwap.o
+ar rs libswap.a swap.o
+# 回到代码根目录，调用静态链接库生成可执行文件
+g++ main.cpp -lswap -Lsrc -Iinclude -o static_main
+```
+
+**链接动态库生成可执行文件**
+
+```shell
+# 进入src目录
+cd  src
+# 生成动态链库文件libswap.so
+g++ swap.cpp -I../include -fPIC -shared -o libswap.so
+# 上面的指令等价于下面两条指令
+# gcc swap -I../include -c -fPIC
+# gcc -shared -o libswap.so swap.o
+
+# 回到上级目录
+cd ..
+# 链接生成可执行文件 dyna_main
+g++ main.cpp -Iinclude -lswap -Lsrc -o dyna_main
+```
+
+静态库和动态库生成可执行文件的区别
+
+- 静态库在打包生成二进制文件的时候，直接将静态库包含进来
+- 动态库则在打包时不打包库文件，而在运行时再把动态库文件引进来
+
+所以我们运行的时候，静态库文件打包的可执行文件可以直接运行，而动态库运行会报错，是因为动态链接文件在我们的代码目录，并不在系统的库搜索目录，如果要运行动态链接库打包生成的可执行文件，我们需要手动指定程勋运行的库目录。
+
+运行可执行文件命令如下：
+
+运行静态打包的可执行文件
+
+```shell
+./static_main
+```
+
+运行动态链接库打包生成的可执行文件
+
+```shell
+LD_LIBRARY_PATH=src ./dyna_main
+```
