@@ -1,6 +1,6 @@
 # cmake 的使用
 
-> 11.12: 完成 P10 开始 P11
+> 11.12: 完成 P10 开始 P11 08:41
 
 ## 一、安装编译环境
 
@@ -497,3 +497,86 @@ set follow-fork-mode child #Makefile项目管理，选择跟踪父子进程（fo
 
 
 ### 2. 命令行调试
+
+给出一段代码，准备调试
+
+```cpp
+#include <iostream>
+using namespace std;
+
+int main(int argc, char const *argv[])
+{
+	int N = 100;
+	int sum = 0;
+	int i = 1;
+
+	while(i <= N){
+		sum = sum + i;
+		i = i + 1;
+	}
+
+	cout << "sum = " << sum <<endl;
+	cout << "The program is over " <<endl;
+
+	return 0;
+}
+```
+
+普通编译方式
+```shell
+g++ sum.cpp -o a_no_g
+```
+
+编译出用于调试的可执行文件
+```shell
+g++ -g sum.cpp -o a_yes_g
+```
+
+使用`gdb`命令进行调试，如果我们调试 `a_no_g` ，将会提示一下错误
+```shell
+pan@pan-PC:~/Work/md/cmake/src/gcc_dbg$ gdb a_no_g 
+GNU gdb (Uos 8.2.1.1-1+security) 8.2.1
+Copyright (C) 2018 Free Software Foundation, Inc.
+License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
+Type "show copying" and "show warranty" for details.
+This GDB was configured as "x86_64-linux-gnu".
+Type "show configuration" for configuration details.
+For bug reporting instructions, please see:
+<http://www.gnu.org/software/gdb/bugs/>.
+Find the GDB manual and other documentation resources online at:
+    <http://www.gnu.org/software/gdb/documentation/>.
+
+For help, type "help".
+Type "apropos word" to search for commands related to "word"...
+Reading symbols from a_no_g...(no debugging symbols found)...done.
+(gdb)
+```
+
+因为`a_no_g`这个可执行文件不包含用于调试的信息，输入`quit`再按回车即可，通过`gdb a_yes_g`指令执行可调试的可执行文件
+
+```
+pan@pan-PC:~/Work/md/cmake/src/gcc_dbg$ gdb a_yes_g 
+GNU gdb (Uos 8.2.1.1-1+security) 8.2.1
+Copyright (C) 2018 Free Software Foundation, Inc.
+License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
+Type "show copying" and "show warranty" for details.
+This GDB was configured as "x86_64-linux-gnu".
+Type "show configuration" for configuration details.
+For bug reporting instructions, please see:
+<http://www.gnu.org/software/gdb/bugs/>.
+Find the GDB manual and other documentation resources online at:
+    <http://www.gnu.org/software/gdb/documentation/>.
+
+For help, type "help".
+Type "apropos word" to search for commands related to "word"...
+Reading symbols from a_yes_g...done.
+(gdb)
+```
+
+此时可以正常进入调试
+
+**调试过程**
