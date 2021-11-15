@@ -1,6 +1,6 @@
 # cmake 的使用
 
-> 11.12: 完成 P10 开始 P11 08:41
+> 11.12: 完成 P10 开始 P11 10:47
 
 ## 一、安装编译环境
 
@@ -580,3 +580,50 @@ Reading symbols from a_yes_g...done.
 此时可以正常进入调试
 
 **调试过程**
+
+直接执行
+```
+run
+```
+
+或者使用简写`r`，运行结果
+```shell
+(gdb) run
+Starting program: /home/pan/Work/md/cmake/src/gcc_dbg/a_yes_g 
+sum = 5050
+The program is over 
+[Inferior 1 (process 21340) exited normally]
+```
+
+在第13行打断点
+```shell
+break 13
+```
+
+运行结果如下
+```
+(gdb) break 11
+Breakpoint 1 at 0x4011ae: file sum.cpp, line 11.
+```
+
+也可以使用简写的方式，在第12行打断点
+```shell
+b 12
+```
+
+结果如下
+```
+(gdb) break 12
+Breakpoint 3 at 0x4011b4: file sum.cpp, line 12.
+```
+
+使用`info break`指令或者指令简写`i b`查看当前的断点，如下结果
+```
+(gdb) info break
+Num     Type           Disp Enb Address            What
+1       breakpoint     keep y   0x00000000004011ae in main(int, char const**) 
+                                                   at sum.cpp:11
+2       breakpoint     keep y   0x00000000004011b4 in main(int, char const**) 
+                                                   at sum.cpp:12
+```
+
