@@ -1,6 +1,6 @@
 # cmake 的使用
 
-> 11.12: 完成 P10 05:00
+> 11.12: 完成 P10 开始 P11
 
 ## 一、安装编译环境
 
@@ -475,4 +475,25 @@ backtrace(bt) #查看函数的调用栈帧和层级关系
 frame(f) #切换函数的栈帧
 info(i) #查看函数内部局部变量的数值
 finish #结束当前函数，返回到函数调用点
+continue(c) #继续执行
+print(p) #打印值及地址
+quit(q) #退出gdb
+break + num(b) #在某行达断点
+info + breakpoints #查看当前设置的所有断点
+delete + breakpoints num(d) #删除第num个断点
+display #跟踪查看具体的变量值
+undisplay #取消跟踪观察变量
+watch #被设置观察点的变量发生修改时，打印显示
+i watch #显示观察点
+enable breakpoints #启用断点
+disable breakpoints #禁用断点
+x #查看内存x/20xw 显示20个单元，16进制，4个字节没单元
+run argv[1] argv[2] #调试命令传参
+set follow-fork-mode child #Makefile项目管理，选择跟踪父子进程（fork）
 ```
+
+> 1. 编译程序时需要加上 `-g` ，之后才能用 `gdb` 进行调试，例如：`gcc -g main.cpp -o main`
+> 2. 回车键：重复上一条命令
+
+
+### 2. 命令行调试
