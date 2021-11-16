@@ -1,6 +1,6 @@
 # cmake 的使用
 
-> 11.12: 完成 P10 开始 P11 10:47
+> 11.12: 完成 P10 开始 P11 gdb调试
 
 ## 一、安装编译环境
 
@@ -627,3 +627,62 @@ Num     Type           Disp Enb Address            What
                                                    at sum.cpp:12
 ```
 
+使用`run`指令或者`r`指令执行程序，此时命中了第11行断点，如下内容
+```shell
+(gdb) r
+Starting program: /home/pan/Work/md/cmake/src/gcc_dbg/a_yes_g 
+
+Breakpoint 1, main (argc=1, argv=0x7fffffffca48) at sum.cpp:11
+11                      sum = sum + i;
+```
+
+此时可以查看变量的值，如查看i的值，可以使用`print i`或者`p i`指令，如下
+
+```shell
+(gdb) print i
+$1 = 1
+```
+
+使用`p N` 查看N的值，如下
+```shell
+(gdb) p N
+$2 = 100
+```
+
+此时程序执行到第11行处，如果我们需要继续执行，输入`continue`指令并按回车即可，程序将执行到代码的第12行，如下
+```shell
+Continuing.
+
+Breakpoint 2, main (argc=1, argv=0x7fffffffca48) at sum.cpp:12
+12                      i = i + 1;
+```
+
+因为我们是在`while`循环体内，`i`的值将不断变化，如果我们需要跟中`i`值的变化，需要输入`display i`指令即可，再输入`continue`指令让程序单步执行，如下
+
+```shell
+(gdb) display i
+1: i = 1
+(gdb) continue
+Continuing.
+
+Breakpoint 1, main (argc=1, argv=0x7fffffffca48) at sum.cpp:11
+11                      sum = sum + i;
+1: i = 2
+```
+可以观察到，通过循环，有回到了第一个断点，此时`i`的值已经变成了2。在gdb调试中，如果我们只按回车键，gdb将执行我们最后一次输入的指令，所以我们可以一直按回车键继续让程序单步执行。
+
+当断点执行都某个位置时，我们想要查看断点附近的代码，可以执行`list`指令进行查看，如下
+
+```shell
+(gdb) list
+7               int sum = 0;
+8               int i = 1;
+9
+10              while(i <= N){
+11                      sum = sum + i;
+12                      i = i + 1;
+13              }
+14
+15              cout << "sum = " << sum <<endl;
+16              cout << "The program is over " <<endl;
+```
