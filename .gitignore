@@ -1,4 +1,6 @@
 /.idea/
-a.out
 /.vscode
+*.out
+*.a
+*.o
 

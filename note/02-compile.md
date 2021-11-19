@@ -1,27 +1,21 @@
 # g++命令行编译实战
 
-在一个工作目录中创建添加代码，文件结构如下
+## 1. 准备源代码
 
-```shell
-pan@pan-PC:~/Work/md/cmake/src/gcc_demo_swap$ tree .
-.
-├── include
-│   └── swap.h
-├── main.cpp
-└── src
-    └── swap.cpp
-```
+在一个工作目录中创建添加代码，文件结构如下图
+
+![02_01.png](../img/02_01.png)
 
 代码内容如下：
 
-swap.h
+`swap.h`文件
 
 ```cpp
 #include <iostream>
 using namespace std;
 ```
 
-swap.cpp
+`swap.cpp`文件
 
 ```cpp
 #include "swap.h"
@@ -35,7 +29,7 @@ void swap(int &a, int &b)
 }
 ```
 
-main.cpp
+`main.cpp`文件
 
 ```cpp
 #include <iostream>
@@ -61,7 +55,7 @@ int main(int argc, char const *argv[])
 }
 ```
 
-### 1.引入目录进行编译
+### 2. 引入目录进行编译
 
 直接编译
 
@@ -69,21 +63,11 @@ int main(int argc, char const *argv[])
 g++ main.cpp src/swap.cpp
 ```
 
-此时会看到如下错误
+此时会看到如下图的错误
 
-```shell
-pan@pan-PC:~/Work/md/cmake/src/gcc_demo_swap$ g++ main.cpp src/swap.cpp
-main.cpp:2:10: fatal error: swap.h: 没有那个文件或目录
- #include "swap.h"
-          ^~~~~~~~
-compilation terminated.
-src/swap.cpp:1:10: fatal error: swap.h: 没有那个文件或目录
- #include "swap.h"
-          ^~~~~~~~
-compilation terminated.
-```
+![02_02.png](../img/02_02.png)
 
-这是因为 g++ 找不到`include`目录下的`swap.h` 文件，所以我们需要将`-I`参数将`include`包含进来，如下命令
+这是因为 g++ 找不到`include`目录下的`swap.h` 文件，所以我们需要使用`-I`参数将`include`目录包含进来，如下命令
 
 ```shell
 g++ main.cpp src/swap.cpp -Iinclude
@@ -91,16 +75,16 @@ g++ main.cpp src/swap.cpp -Iinclude
 
 这时候代码就可以顺便通过编译了。
 
-### 2. 使用-Wall、-std 参数进行编译
+### 3. 使用-Wall、-std 参数进行编译
 
-`-Wall` 代表程序编译过程中输出警告信息，`-std`代表使用的 c++标准，如下命令
+`-Wall` 代表程序编译过程中输出警告信息，`-std`代表使用特定的 c++标准 进行编译，如下命令
 
 ```
 # 使用c++11标准进行编译，并且使用-Wall参数
-g++ main.cpp src/swap.cpp -Iinclude -Wall -std=c++11 -o b.out
+g++ main.cpp src/swap.cpp -Iinclude -Wall -std=c++11 -o a.out
 ```
 
-此时我们看到，还是能正常编译，也没有输出警告，我们也可以正常执行`b.out`。因为我们的代码是符合`c++11`标准的，为了演示一个警告，我们在`main.cpp`中加一行代码。如下
+此时我们看到，还是能正常编译，也没有输出警告，我们也可以正常执行`a.out`。因为我们的代码是符合`c++11`标准的，为了演示一个警告，我们在`main.cpp`中加一行代码。如下
 
 ```cpp
 #include <iostream>
@@ -128,7 +112,7 @@ int main(int argc, char const *argv[])
 }
 ```
 
-把输出文件改为`c.aot`，再次执行编译，如下命令
+把输出文件改为`b.out`，再次执行编译，如下命令
 
 ```
 g++ main.cpp src/swap.cpp -Iinclude -Wall -std=c++11 -o b.out
@@ -145,7 +129,7 @@ main.cpp:9:12: warning: unused variable ‘d’ [-Wunused-variable]
 pan@pan-PC:~/Work/md/cmake/src/gcc_demo_swap$
 ```
 
-因为定义一个变量不使用，是不符合`c++11`的标准的，但不是错误，`c.out`也能正常执行。
+因为定义一个变量不使用，是不符合`c++11`的标准的，但不是错误，`b.out`也能正常执行。
 
 ### 3. 生成库文件
 
