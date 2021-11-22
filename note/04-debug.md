@@ -1,6 +1,8 @@
-# 命令行调试实战
+# Linux下C++命令行调试实战
 
-给出一段代码，准备调试
+## 1. 准备代码
+
+创建一个C++源代码文件 `src/03_debug/sum.cpp`，添加以下代码
 
 ```cpp
 #include <iostream>
@@ -24,64 +26,30 @@ int main(int argc, char const *argv[])
 }
 ```
 
+## 2. 进入调试模式
+
+在进入调试模式之前，先编译源代码，如果过程。
+
 普通编译方式
 ```shell
-g++ sum.cpp -o a_no_g
+g++ sum.cpp -o no_g.out
 ```
 
 编译出用于调试的可执行文件
 ```shell
-g++ -g sum.cpp -o a_yes_g
+g++ -g sum.cpp -o yes_g.out
 ```
 
-使用`gdb`命令进行调试，如果我们调试 `a_no_g` ，将会提示一下错误
-```shell
-pan@pan-PC:~/Work/md/cmake/src/gcc_dbg$ gdb a_no_g 
-GNU gdb (Uos 8.2.1.1-1+security) 8.2.1
-Copyright (C) 2018 Free Software Foundation, Inc.
-License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
-This is free software: you are free to change and redistribute it.
-There is NO WARRANTY, to the extent permitted by law.
-Type "show copying" and "show warranty" for details.
-This GDB was configured as "x86_64-linux-gnu".
-Type "show configuration" for configuration details.
-For bug reporting instructions, please see:
-<http://www.gnu.org/software/gdb/bugs/>.
-Find the GDB manual and other documentation resources online at:
-    <http://www.gnu.org/software/gdb/documentation/>.
+使用`gdb`命令进行调试，如果我们调试 `no_g.out` ，将会提示一下图错误
+![04_01](../img/04_01.png)
 
-For help, type "help".
-Type "apropos word" to search for commands related to "word"...
-Reading symbols from a_no_g...(no debugging symbols found)...done.
-(gdb)
-```
 
-因为`a_no_g`这个可执行文件不包含用于调试的信息，输入`quit`再按回车即可，通过`gdb a_yes_g`指令执行可调试的可执行文件
-
-```
-pan@pan-PC:~/Work/md/cmake/src/gcc_dbg$ gdb a_yes_g 
-GNU gdb (Uos 8.2.1.1-1+security) 8.2.1
-Copyright (C) 2018 Free Software Foundation, Inc.
-License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
-This is free software: you are free to change and redistribute it.
-There is NO WARRANTY, to the extent permitted by law.
-Type "show copying" and "show warranty" for details.
-This GDB was configured as "x86_64-linux-gnu".
-Type "show configuration" for configuration details.
-For bug reporting instructions, please see:
-<http://www.gnu.org/software/gdb/bugs/>.
-Find the GDB manual and other documentation resources online at:
-    <http://www.gnu.org/software/gdb/documentation/>.
-
-For help, type "help".
-Type "apropos word" to search for commands related to "word"...
-Reading symbols from a_yes_g...done.
-(gdb)
-```
+因为`no_g.out`这个可执行文件不包含用于调试的信息，输入`quit`再按回车即可，通过`gdb yes_g.out`指令执行包含调试信息的可执行文件，看到以下输出
+![04_02](../img/04_02.png)
 
 此时可以正常进入调试
 
-**调试过程**
+## 3. 调试过程
 
 直接执行
 ```
@@ -90,16 +58,17 @@ run
 
 或者使用简写`r`，运行结果
 ```shell
-(gdb) run
-Starting program: /home/pan/Work/md/cmake/src/gcc_dbg/a_yes_g 
+(gdb) r
+Starting program: /home/pan/Work/md/CMakeDoc/src/03_debug/yes_g.out 
 sum = 5050
 The program is over 
-[Inferior 1 (process 21340) exited normally]
+[Inferior 1 (process 17536) exited normally]
+(gdb)
 ```
 
-在第13行打断点
+在第11行打断点
 ```shell
-break 13
+break 11
 ```
 
 运行结果如下
@@ -132,10 +101,11 @@ Num     Type           Disp Enb Address            What
 使用`run`指令或者`r`指令执行程序，此时命中了第11行断点，如下内容
 ```shell
 (gdb) r
-Starting program: /home/pan/Work/md/cmake/src/gcc_dbg/a_yes_g 
+Starting program: /home/pan/Work/md/CMakeDoc/src/03_debug/yes_g.out 
 
-Breakpoint 1, main (argc=1, argv=0x7fffffffca48) at sum.cpp:11
+Breakpoint 1, main (argc=1, argv=0x7fffffffca38) at sum.cpp:11
 11                      sum = sum + i;
+(gdb)
 ```
 
 此时可以查看变量的值，如查看i的值，可以使用`print i`或者`p i`指令，如下
@@ -143,20 +113,24 @@ Breakpoint 1, main (argc=1, argv=0x7fffffffca48) at sum.cpp:11
 ```shell
 (gdb) print i
 $1 = 1
+(gdb)
 ```
 
 使用`p N` 查看N的值，如下
 ```shell
-(gdb) p N
+(gdb) print N
 $2 = 100
+(gdb)
 ```
 
 此时程序执行到第11行处，如果我们需要继续执行，输入`continue`指令并按回车即可，程序将执行到代码的第12行，如下
 ```shell
+(gdb) continue
 Continuing.
 
-Breakpoint 2, main (argc=1, argv=0x7fffffffca48) at sum.cpp:12
+Breakpoint 2, main (argc=1, argv=0x7fffffffca38) at sum.cpp:12
 12                      i = i + 1;
+(gdb)
 ```
 
 因为我们是在`while`循环体内，`i`的值将不断变化，如果我们需要跟中`i`值的变化，需要输入`display i`指令即可，再输入`continue`指令让程序单步执行，如下
@@ -167,16 +141,19 @@ Breakpoint 2, main (argc=1, argv=0x7fffffffca48) at sum.cpp:12
 (gdb) continue
 Continuing.
 
-Breakpoint 1, main (argc=1, argv=0x7fffffffca48) at sum.cpp:11
+Breakpoint 1, main (argc=1, argv=0x7fffffffca38) at sum.cpp:11
 11                      sum = sum + i;
 1: i = 2
+(gdb)
 ```
-可以观察到，通过循环，有回到了第一个断点，此时`i`的值已经变成了2。在gdb调试中，如果我们只按回车键，gdb将执行我们最后一次输入的指令，所以我们可以一直按回车键继续让程序单步执行。
+
+可以观察到，通过循环，又回到了第一个断点，此时`i`的值已经变成了2。在gdb调试中，如果我们只按回车键，gdb将执行我们最后一次输入的指令，所以我们可以一直按回车键继续让程序单步执行。
 
 当断点执行都某个位置时，我们想要查看断点附近的代码，可以执行`list`指令进行查看，如下
 
 ```shell
 (gdb) list
+6               int N = 100;
 7               int sum = 0;
 8               int i = 1;
 9
@@ -186,7 +163,7 @@ Breakpoint 1, main (argc=1, argv=0x7fffffffca48) at sum.cpp:11
 13              }
 14
 15              cout << "sum = " << sum <<endl;
-16              cout << "The program is over " <<endl;
+(gdb)
 ```
 
 
