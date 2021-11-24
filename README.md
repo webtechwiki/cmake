@@ -30,6 +30,7 @@ cmake --version
 - [2. g++命令行编译实战](./note/02-compile.md)
 - [3. GDB调试器](./note/03-dbg.md)
 - [4. 命令行调试实战](./note/04-debug.md)
+- [5. cmake语法特性与常用变量](./note/05-debug.md)
 
 
 > 本系列文章原创，**禁止转载！**，欢迎关注作者微信订阅号：**极客开发者up**
