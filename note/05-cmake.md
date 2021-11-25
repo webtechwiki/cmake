@@ -1,8 +1,8 @@
-# cmake语法特性与常用变量
+# 跨平台编译工具-CMake的语法特性与常用变量
 
 ## 1. 概述
 
-- Cmake 是一个跨平台的编译工具，可以用简单的语句来描述跨平台的编译过程
+- Cmake (Cross Platform Make) 是一个跨平台的编译工具，可以用简单的语句来描述跨平台的编译过程
 
 - CMake已经成为了大部分C++开源项目的首要编译工具
 
@@ -57,7 +57,7 @@ set(SRC hello.cpp main.cpp)
 include_directories(/usr/include ./include)
 ```
 
-- `link_directories` : 向工程中添加多个库文件搜索路径，相当与 `g++` 的 `-L` 参数
+- `link_directories` : 向工程中添加多个库文件搜索路径，相当于 `g++` 的 `-L` 参数
 
 ```shell
 # 将 /usr/lib 和 ./lib 路径添加到库文件搜索路径中
@@ -67,7 +67,7 @@ link_directories(/usr/lib ./lib)
 - `add_library` : 生成库文件
 
 ```shell
-# 通过变量SRC生成hello.so 共享库，第二个参数填 SHARED 活着 STATIC 活 MOUDLE
+# 通过变量SRC生成hello.so 共享库，第二个参数填 SHARED 或 STATIC 或 MOUDLE
 add_library(hello SHARED ${SRC})
 ```
 

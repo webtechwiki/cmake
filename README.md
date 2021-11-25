@@ -26,11 +26,11 @@ cmake --version
 以下是文档目录
  
 
-- [1. GCC编译器](./note/01-g++.md)
-- [2. g++命令行编译实战](./note/02-compile.md)
+- [1. Linux中编译C++代码的g++工具，以及g++的常用操作指令](./note/01-g++.md)
+- [2. Linux下C++命令行编译示例](./note/02-compile.md)
 - [3. GDB调试器](./note/03-dbg.md)
-- [4. 命令行调试实战](./note/04-debug.md)
-- [5. cmake语法特性与常用变量](./note/05-cmake.md)
+- [4. Linux下C++命令行调试实战](./note/04-debug.md)
+- [5. 跨平台编译工具-CMake的语法特性与常用变量](./note/05-cmake.md)
 
 
 > 本系列文章原创，**禁止转载！**，欢迎关注作者微信订阅号：**极客开发者up**
