@@ -31,7 +31,7 @@ cmake --version
 - [3. GDB调试器](./note/03-dbg.md)
 - [4. Linux下C++命令行调试实战](./note/04-debug.md)
 - [5. 跨平台编译工具-CMake的语法特性与常用变量](./note/05-cmake.md)
-- [6. CMake项目的编译流程](./note/06-cmake-compile-step.md)
+- [6. CMake项目的编译流程](./note/06-cmake-cmpile-step.md)
 
 
 > 本系列文章原创，**禁止转载！**，欢迎关注作者微信订阅号：**极客开发者up**
