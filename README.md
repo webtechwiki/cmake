@@ -33,6 +33,7 @@ cmake --version
 - [5. 跨平台编译工具-CMake的语法特性与常用变量](./note/05-cmake.md)
 - [6. CMake项目的编译流程](./note/06-cmake-compile-step.md)
 - [7. CMake项目编译实战](./note/07-cmake-compile.md)
+- [8. 怎样在VSCode中调试C++程序](./note/08-vscode-debug.md)
 
 
 > 本系列文章原创，**禁止转载！**，欢迎关注作者微信订阅号：**极客开发者up**
