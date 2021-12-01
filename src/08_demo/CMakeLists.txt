@@ -9,4 +9,4 @@ set(CMAKE_BUILD_TYPE Debug)
 # 包含目录
 include_directories(${CMAKE_SOURCE_DIR}/include)
 # 编译
-add_executable(my_cmake.out main.cpp src/Gun.cpp src/Solider.cpp)
+add_executable(a.out main.cpp src/Gun.cpp src/Solider.cpp)

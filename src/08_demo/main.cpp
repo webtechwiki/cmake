@@ -1,5 +1,6 @@
 #include "Gun.h"
 #include "Solider.h"
+#include "iostream"
 
 void test()
 {
@@ -11,6 +12,7 @@ void test()
 
 int main(int argc, char const *argv[])
 {
+    std::cout << "this is a test stating" << std::endl;
     test();
     return 0;
 }

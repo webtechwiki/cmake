@@ -340,6 +340,12 @@ add_executable(a.out main.cpp src/Gun.cpp src/Solider.cpp)
 std::cout << "this is a test stating" << std::endl;
 ```
 
+因为我们使用了C++标准输出函数，所以同时要在文件头部引入 `iostream`，如下代码
+
+```cpp
+#include "iostream"
+```
+
 同时在这行代码的下一行打一个断点，再按键盘上的 `F5` 键，此时自动进入了调试模式，如下图
 
 ![08_06](../img/08_06.png)
