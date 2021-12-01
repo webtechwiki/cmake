@@ -13,7 +13,7 @@ VSCode 是目前最热门的IDE之一，在本节，我们将介绍怎样在 VSC
 
 ![08_01](../img/08_01.png)
 
-该程序模拟了一个士兵用枪装子弹，并进行射击的程序。相关源码内容已经cmake配置文件如下
+该程序模拟了一个士兵用枪装子弹，并进行射击的程序。相关源码内容以及cmake配置文件如下
 
 ### 2.1. `include/Gun.h` 文件
 
@@ -83,7 +83,8 @@ bool Gun::shoot()
 
     this->_bullet_count -= 1;
     cout << "shoot success" << endl;
- 
+    return true;
+}
 ```
 
 ### 2.4. `src/Solider.cpp` 文件
@@ -165,7 +166,7 @@ add_executable(a.out main.cpp src/Gun.cpp src/Solider.cpp)
 
 ### 3.1. `C/C++` 插件
 
-该插件支持 C/C++ 代码的提示，调试已经C++代码的阅读，是 VSCode 的官方插件
+该插件支持 C/C++ 代码的提示、C++程序调试 以及 C++源码的阅读，是 VSCode 的官方插件
 
 插件地址: [https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools](https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools)
 
@@ -173,7 +174,7 @@ add_executable(a.out main.cpp src/Gun.cpp src/Solider.cpp)
 
 ### 3.2. `CMake` 插件
 
-该插件支持 CMake 配置文件的高亮语法
+该插件支持 CMake 配置文件的高亮代码、语法提示
 
 插件地址: [https://marketplace.visualstudio.com/items?itemName=twxs.cmake](https://marketplace.visualstudio.com/items?itemName=twxs.cmake)
 
@@ -192,7 +193,7 @@ add_executable(a.out main.cpp src/Gun.cpp src/Solider.cpp)
 
 ### 4.1. 创建调试配置文件
 
-准备好源代码并且安装好插件之后，我们可以打开 VSCode 的debug配置设置菜单栏，如下图
+准备好源代码并且安装好插件之后，我们可以打开 VSCode 的 调试(debug) 菜单栏，如下图
 
 ![08_05](../img/08_05.png)
 
@@ -233,12 +234,12 @@ add_executable(a.out main.cpp src/Gun.cpp src/Solider.cpp)
 `program`: 该配置的值指向带调试信息的二进制程序。我们最终将编译生成的程序放在 `build` 目录中，所以这里可以填写 `${workspaceFolder}/build/a.out`。
 
 
-`preLaunchTask`: 该参数定义调试器启动之前的执行任务。默认配置文件中并不包含改参数，我们需要手动添加，用于自动编译变更后的 C++ 代码。
+`preLaunchTask`: 该参数定义调试器启动之前的执行任务。默认配置文件中并不包含该参数，我们需要手动添加，用于自动编译变更后的 C++ 代码。
 
 
 ### 4.3. 创建任务文件
 
-通过 `terminal` -> `Configure Default Build Task` 菜单，并选择 `Create tasks.json file from template` -> `Others` 选项创建任务配置文件，文件创建位置为 `.vscode/tasks.json`，默认配置内容如下内容
+通过 `terminal` -> `Configure Default Build Task` 菜单，并选择 `Create tasks.json file from template` -> `Others` 选项创建任务配置文件，文件创建位置为 `.vscode/tasks.json`，默认配置内容如下
 
 ```json
 {
@@ -295,7 +296,7 @@ add_executable(a.out main.cpp src/Gun.cpp src/Solider.cpp)
 }
 ```
 
-我们在`tasks.json` 中定义了三个任务，首先是定义了 `cmake` 预编译指令，其次是定义 `make` 编译指令，再定义 `build` 任务去包含预编译和编译这两个步骤。最终修改`launch.json` 文件如下内容
+在以上的内容中，我们中定义了三个任务。首先是定义了 `cmake` 预编译指令，其次是定义 `make` 编译指令，再定义 `build` 任务去包含预编译和编译这两个步骤。最终修改`launch.json` 文件如下内容
 
 ```json
 {
@@ -328,7 +329,7 @@ add_executable(a.out main.cpp src/Gun.cpp src/Solider.cpp)
 }
 ```
 
-此时，VSCode 的自动化 debug 已经完成配置，要注意的是 `program` 配置的可执行程序的路径要和 `CMakeLists.txt` 配置文件中要一致。同时，`preLaunchTask` 配置的值要和 `taks.json` 文件中配置的任务标识一致。
+此时，VSCode 的自动化 debug 已经完成配置，要注意的是 `program` 配置的可执行程序的路径要和 `CMakeLists.txt` 配置文件中定义的二进制可执行程序 输出路径一致。同时，`preLaunchTask` 配置的值要和 `taks.json` 文件中配置的任务标识一致。
 
 
 ## 5. 调试过程
@@ -339,21 +340,21 @@ add_executable(a.out main.cpp src/Gun.cpp src/Solider.cpp)
 std::cout << "this is a test stating" << std::endl;
 ```
 
-同时在改行代码的下一行打一个断点，再按键盘上的 `F5` 键，此时自动进入了调试模式，如下图
+同时在这行代码的下一行打一个断点，再按键盘上的 `F5` 键，此时自动进入了调试模式，如下图
 
 ![08_06](../img/08_06.png)
 
 
-在 VSCode 的调试包含了 以下几个功能按键
+在 VSCode 的调试包含了 以下几个功能按键：
 
-**Continue(F5)**: 执行到断点会停止
+- **Continue(F5)**: 执行到断点会停止
 
-**Step Into(F11)**: 进入子函数，单步执行
+- **Step Into(F11)**: 进入子函数，单步执行
 
-**Step Out(Shift + F11)**: 越过子函数
+- **Step Out(Shift + F11)**: 越过子函数
 
-**Step Over(F10)**: 如果已经进入了子函数，越出此子函数
+- **Step Over(F10)**: 如果已经进入了子函数，越出此子函数
 
-**Restart(Ctrl + Shift + F5)**: 重启调试
+- **Restart(Ctrl + Shift + F5)**: 重启调试
 
-**Sop(Shift + F5)**: 停止调试
+- **Sop(Shift + F5)**: 停止调试
