@@ -36,4 +36,7 @@ cmake --version
 - [8. 怎样在VSCode中调试C++程序](./note/08-vscode-debug.md)
 
 
-> 本系列文章原创，**禁止转载！**，欢迎关注作者微信订阅号：**极客开发者up**
+> 本系列文章为自己的亲手笔记，**禁止转载！**，欢迎关注作者微信订阅号：**极客开发者up**
+
+
+感谢B站up主 xiaobing1016 的学习视频：[https://www.bilibili.com/video/BV1fy4y1b7TC](https://www.bilibili.com/video/BV1fy4y1b7TC)

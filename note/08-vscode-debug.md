@@ -296,7 +296,7 @@ add_executable(a.out main.cpp src/Gun.cpp src/Solider.cpp)
 }
 ```
 
-在以上的内容中，我们中定义了三个任务。首先是定义了 `cmake` 预编译指令，其次是定义 `make` 编译指令，再定义 `build` 任务去包含预编译和编译这两个步骤。最终修改`launch.json` 文件如下内容
+在以上的任务配置内容中，我们定义了三个任务。首先是定义了 `cmake` 预编译指令，其次是定义 `make` 编译指令，再定义 `build` 任务去包含预编译和编译这两个步骤。最终修改`launch.json` 文件如下内容
 
 ```json
 {
