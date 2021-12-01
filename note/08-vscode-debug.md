@@ -158,7 +158,7 @@ set(CMAKE_BUILD_TYPE Debug)
 # 包含目录
 include_directories(${CMAKE_SOURCE_DIR}/include)
 # 编译
-add_executable(my_cmake.out main.cpp src/Gun.cpp src/Solider.cpp)
+add_executable(a.out main.cpp src/Gun.cpp src/Solider.cpp)
 ```
 
 ## 3. 安装VSCode插件
@@ -258,4 +258,102 @@ add_executable(my_cmake.out main.cpp src/Gun.cpp src/Solider.cpp)
 我们需要将任务配置文件修改为如下内容
 
 ```json
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "options": {
+        "cwd": "${workspaceFolder}/build"
+    },
+    "tasks": [
+        {
+            "type": "shell",
+            "label": "cmake",
+            "command": "cmake",
+            "args": [
+                ".."
+            ]
+        },
+        {
+            "label": "make",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "command": "make",
+            "args": []
+        },
+        {
+            "label": "build",
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "cmake",
+                "make"
+            ]
+        }
+    ],
+}
 ```
+
+我们在`tasks.json` 中定义了三个任务，首先是定义了 `cmake` 预编译指令，其次是定义 `make` 编译指令，再定义 `build` 任务去包含预编译和编译这两个步骤。最终修改`launch.json` 文件如下内容
+
+```json
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "(gdb) 启动",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/build/a.out",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${fileDirname}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "为 gdb 启用整齐打印",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ],
+            "preLaunchTask": "build"
+        }
+    ]
+}
+```
+
+此时，VSCode 的自动化 debug 已经完成配置，要注意的是 `program` 配置的可执行程序的路径要和 `CMakeLists.txt` 配置文件中要一致。同时，`preLaunchTask` 配置的值要和 `taks.json` 文件中配置的任务标识一致。
+
+
+## 5. 调试过程
+
+我们在第4步骤配置好自动化编译之后，现在我们在程序执行的`mian` 函数里添加如下一行代码来验证结果
+
+```cpp
+std::cout << "this is a test stating" << std::endl;
+```
+
+同时在改行代码的下一行打一个断点，再按键盘上的 `F5` 键，此时自动进入了调试模式，如下图
+
+![08_06](../img/08_06.png)
+
+
+在 VSCode 的调试包含了 以下几个功能按键
+
+**Continue(F5)**: 执行到断点会停止
+
+**Step Into(F11)**: 进入子函数，单步执行
+
+**Step Out(Shift + F11)**: 越过子函数
+
+**Step Over(F10)**: 如果已经进入了子函数，越出此子函数
+
+**Restart(Ctrl + Shift + F5)**: 重启调试
+
+**Sop(Shift + F5)**: 停止调试
