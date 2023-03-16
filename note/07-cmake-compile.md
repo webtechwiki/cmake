@@ -1,23 +1,21 @@
 # CMake项目编译实战
 
-
 ## 1. 准备源代码
 
-
->  我们准备两份源代码，一是最简单的 `helleworld` 程序，二是包含多文件的一个简单项目
+> 我们准备两份源代码，一是最简单的 `helleworld` 程序，二是包含多文件的一个简单项目
 
 ### 1.1. 准备 `helloworld` 程序
 
 我们在 `src/07_cmake/helloworld` 中创建 `helloworld.cpp` 源代码文件，添加以下内容
 
-```
+```cpp
 #include <iostream>
 using namespace std;
 
 int main(int argc, char const *argv[])
 {
-	cout << "hello world !" << endl;
-	return 0;
+    cout << "hello world !" << endl;
+    return 0;
 }
 ```
 
@@ -26,7 +24,6 @@ int main(int argc, char const *argv[])
 在本系列的第2篇文章中，我们创建了一个简单的 C++ 项目，我们现在直接把源代码拷贝一份到 `src/07_cmake/project` 目录中，代码结构如下如所示
 
 ![07_01](../img/07_01.png)
-
 
 代码细节如下
 
@@ -44,10 +41,10 @@ using namespace std;
 
 void swap(int &a, int &b)
 {
-	int temp;
-	temp = a;
-	a = b;
-	b = temp;
+    int temp;
+    temp = a;
+    a = b;
+    b = temp;
 }
 ```
 
@@ -82,11 +79,9 @@ int main(int argc, char const *argv[])
 
 ### 2.1. 编译 `helloworld` 程序
 
-
 - 内部构建
 
 先执行 `cd src/07_cmake/helloworld` 命令进入我们的项目目录，创建 cmake 配置文件 `CMakeLists.txt`，定义编译参数如下内容
-
 
 ```shell
 # 指定cmake最低版本
@@ -141,7 +136,6 @@ cmake ..
 
 最终产生的可执行文件也在 `build` 目录中。
 
-
 ### 2.2. 编译 `project` 项目
 
 在 `src/07_cmake/project` 目录下，是一个包含多文件的简单的 C++ 项目，接下来我们将使用 `cmake` 对项目进行编译。
@@ -172,4 +166,4 @@ cmake ..
 make
 ```
 
-最终，在 `build` 目录中生成了最终的可执行文件 `main_cmake.out`
+最终，在 `build` 目录中生成了最终的可执行文件 `main_cmake.out`。

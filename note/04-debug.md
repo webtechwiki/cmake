@@ -10,19 +10,19 @@ using namespace std;
 
 int main(int argc, char const *argv[])
 {
-	int N = 100;
-	int sum = 0;
-	int i = 1;
-
-	while(i <= N){
-		sum = sum + i;
-		i = i + 1;
-	}
-
-	cout << "sum = " << sum <<endl;
-	cout << "The program is over " <<endl;
-
-	return 0;
+    int N = 100;
+    int sum = 0;
+    int i = 1;
+    
+    while(i <= N){
+        sum = sum + i;
+        i = i + 1;
+    }
+    
+    cout << "sum = " << sum <<endl;
+    cout << "The program is over " <<endl;
+    
+    return 0;
 }
 ```
 
@@ -31,11 +31,13 @@ int main(int argc, char const *argv[])
 在进入调试模式之前，先编译源代码，如下过程。
 
 普通编译方式
+
 ```shell
 g++ sum.cpp -o no_g.out
 ```
 
 编译出用于调试的可执行文件
+
 ```shell
 g++ -g sum.cpp -o yes_g.out
 ```
@@ -43,7 +45,6 @@ g++ -g sum.cpp -o yes_g.out
 使用`gdb`命令进行调试，如果我们调试 `no_g.out` ，将会提示一下图错误
 
 ![04_01](../img/04_01.png)
-
 
 因为`no_g.out`这个可执行文件不包含用于调试的信息，输入`quit`再按回车即可，通过`gdb yes_g.out`指令执行包含调试信息的可执行文件，看到以下输出
 
@@ -54,7 +55,8 @@ g++ -g sum.cpp -o yes_g.out
 ## 3. 调试过程
 
 直接执行
-```
+
+```shell
 run
 ```
 
@@ -63,6 +65,7 @@ run
 ![04_03](../img/04_03.png)
 
 在第11行打断点
+
 ```shell
 break 11
 ```
@@ -72,6 +75,7 @@ break 11
 ![04_04](../img/04_04.png)
 
 也可以使用简写的方式，在第12行打断点
+
 ```shell
 b 12
 ```
@@ -80,11 +84,9 @@ b 12
 
 ![04_05](../img/04_05.png)
 
-
 使用`info break`指令或者指令简写`i b`查看当前的断点，如下图结果
 
 ![04_06](../img/04_06.png)
-
 
 使用`run`指令或者`r`指令执行程序，此时命中了第11行断点，如下图内容
 
@@ -111,4 +113,3 @@ b 12
 当断点执行都某个位置时，我们想要查看断点附近的代码，可以执行`list`指令进行查看，如下图
 
 ![04_13](../img/04_13.png)
-

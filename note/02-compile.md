@@ -6,6 +6,7 @@
 - Linux系统操作基础
 
 文章目录
+
 ```text
 1. 准备源代码
 2. 编译实战
@@ -20,7 +21,6 @@
 这是这个系列的第2篇文章，你可以通过以下链接阅读第一篇
 
 [1. Linux中编译C++代码的g++工具，以及g++的常用操作指令](./01-g++.md)
-
 
 ## 1. 准备源代码
 
@@ -44,15 +44,14 @@ using namespace std;
 
 void swap(int &a, int &b)
 {
-	int temp;
-	temp = a;
-	a = b;
-	b = temp;
+    int temp;
+    temp = a;
+    a = b;
+    b = temp;
 }
 ```
 
 `main.cpp`文件，这是主函数文件，函数调用的入口
-
 
 ```cpp
 #include <iostream>
@@ -77,7 +76,6 @@ int main(int argc, char const *argv[])
     return 0;
 }
 ```
-
 
 ## 2. 编译实战
 
@@ -105,7 +103,7 @@ g++ main.cpp src/swap.cpp -Iinclude
 
 `-Wall` 代表程序编译过程中输出警告信息，`-std`代表使用特定的 c++标准 进行编译，如下命令
 
-```
+```SHELL
 # 使用c++11标准进行编译，并且使用-Wall参数
 g++ main.cpp src/swap.cpp -Iinclude -Wall -std=c++11 -o a.out
 ```
@@ -121,8 +119,8 @@ int main(int argc, char const *argv[])
 {
     int val1 = 10;
     int val2 = 20;
-	// 定义一个变量，但是不使用
-	double d = 0.0;
+    // 定义一个变量，但是不使用
+    double d = 0.0;
 
     cout << " Before swap:" << endl;
     cout << " val1:" << val1 << endl;
@@ -140,7 +138,7 @@ int main(int argc, char const *argv[])
 
 把输出文件改为`b.out`，再次执行编译，如下命令
 
-```
+```SHELL
 g++ main.cpp src/swap.cpp -Iinclude -Wall -std=c++11 -o b.out
 ```
 
@@ -150,11 +148,11 @@ g++ main.cpp src/swap.cpp -Iinclude -Wall -std=c++11 -o b.out
 
 因为定义一个变量不使用，是不符合`c++11`的标准的，但不是错误，`b.out`也能正常执行。
 
-### 2.1.3. 生成库文件
+### 2.3. 生成库文件
 
 我们先删除在 2 中会进行警告的代码
 
-**链接静态库生成可执行文件**
+#### 2.3.1. 链接静态库生成可执行文件
 
 ```shell
 # 先进入src目录
@@ -167,7 +165,7 @@ ar rs libswap.a swap.o
 g++ main.cpp -lswap -Lsrc -Iinclude -o static_main
 ```
 
-**链接动态库生成可执行文件**
+#### 2.3.2. 链接动态库生成可执行文件
 
 ```shell
 # 进入src目录
@@ -184,7 +182,7 @@ cd ..
 g++ main.cpp -Iinclude -lswap -Lsrc -o dyna_main
 ```
 
-**静态库和动态库生成可执行文件的区别**
+#### 2.3.3. 静态库和动态库生成可执行文件的区别
 
 - 静态库在打包生成二进制文件的时候，直接将静态库包含进来
 - 动态库则在打包时不打包库文件，而在运行时再把动态库文件引进来
@@ -206,7 +204,3 @@ g++ main.cpp -Iinclude -lswap -Lsrc -o dyna_main
 # 运行动态打包的可执行文件，需要设置 LD_LIBRARY_PATH 变量，变量值是动态链接文件所在目录
 LD_LIBRARY_PATH=src ./dyna_main
 ```
-
-
-
-

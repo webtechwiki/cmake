@@ -22,9 +22,7 @@ cmake --version
 - C++编程语言基础
 - Linux系统基本操作能力
 
-
 以下是文档目录
- 
 
 - [1. Linux中编译C++代码的g++工具，以及g++的常用操作指令](./note/01-g++.md)
 - [2. Linux下C++命令行编译示例](./note/02-compile.md)
@@ -35,8 +33,6 @@ cmake --version
 - [7. CMake项目编译实战](./note/07-cmake-compile.md)
 - [8. 怎样在VSCode中调试C++程序](./note/08-vscode-debug.md)
 
-
-> 本系列文章为自己的亲手笔记，**禁止转载！**，欢迎关注作者微信订阅号：**极客开发者up**
-
+> 本系列文章为自己的亲手笔记，**禁止转载！**，欢迎关注作者微信订阅号：**极客开发者**
 
 感谢B站up主 xiaobing1016 的学习视频：[https://www.bilibili.com/video/BV1fy4y1b7TC](https://www.bilibili.com/video/BV1fy4y1b7TC)

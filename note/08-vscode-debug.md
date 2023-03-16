@@ -188,7 +188,6 @@ add_executable(a.out main.cpp src/Gun.cpp src/Solider.cpp)
 
 ![08_04](../img/08_04.png)
 
-
 ## 4. 配置调试
 
 ### 4.1. 创建调试配置文件

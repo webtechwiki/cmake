@@ -8,7 +8,6 @@
 
 > 在不同的操作系统上，我们可以使用不同的编译工具，比如 windows 中使用 Visual Studio 的开发套件， mac 中使用 xcode 开发套件，Linux 中使用 Makefile 结合 g++ 编译，那如果我们使用 cmake 就可以解决了跨平台的问题。
 
-
 ## 2. cmake 基础知识
 
 ### 2.1. cmake 的基本语法特性
@@ -134,13 +133,11 @@ set(CMAKE_BUILD_TYPE Release)
 3. 如果是 out-of-binary 编译，指的是工程编译发生的目录
 4. PROJECT_BINARY_DIR 跟其他指令稍有区别，但这里可以理解他们是一致的
 
-
 - `CMAKE_SOURCE_DIR`、`PROJECT_SOURCE_DIR`、`<projectname>_SOURCE_DIR`
 
 1. 这三个变量指代的内容是一致的，不论采用何种编译方式，都是工程经层目录
 2. 如果是 in source build ，跟 CMAKE_BINARY_DIR 变量一致
 3. PROJECT_SOURCE_DIR 跟其他指令稍有区别，但这里可以理解他们是一致的
-
 
 - `CMAKE_C_COMPILE` : 指定C编译器
 
@@ -149,12 +146,3 @@ set(CMAKE_BUILD_TYPE Release)
 - `EXECUTABLE_OUT_PATH` : 可执行文件输出的存放路径
 
 - `LIBRARY_OUTOUT_PATH` : 库文件输出的存放路径
-
-
-
-
-
-
-
-
-
